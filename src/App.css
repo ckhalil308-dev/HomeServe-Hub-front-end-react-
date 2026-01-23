@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@tailwind components;
+@tailwind utilities;
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+*{
+    scroll-behavior: smooth;
+}
+
+.color{
+    background-color: #A2DDDE ;
+}
+.color2{
+    background-color: #0C7779;
+}
+.heroText{
+    font-family: 'Plus Jakarta Sans' , sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 1.2px;
+    
+  
+    font-weight: 700;
+    
+}
+
+.ser{
+    font-family: dm-sans, sans-serif;
+}
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reusable class */
+.animate {
+  animation: fadeSlideUp 0.5s linear ;}
