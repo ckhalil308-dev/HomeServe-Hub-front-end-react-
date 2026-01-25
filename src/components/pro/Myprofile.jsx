@@ -29,14 +29,14 @@ function MyProfile() {
   }, [user]);  
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif' }}>
+      <div className="  flex items-center justify-center min-h-screen" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif' }}>
         <p className="text-lg text-gray-600">Chargement...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white p-8" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif' }}>
+    <div className="  animate  min-h-screen bg-white p-8 mt-10" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif' }}>
       <div className="max-w-3xl">
         <div className="mb-8">
           <h1 className="text-3xl font-semibold text-gray-900 mb-2">Mon Profil</h1>

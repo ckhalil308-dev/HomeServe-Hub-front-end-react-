@@ -91,7 +91,7 @@ function ChangeProfile({formData, setFormData,user,isEditing,setIsEditing,fetchU
                 <p className="text-red-500 text-sm mb-4">{submitError}</p>
         )
             }
-            <div className="grid grid-cols-2 gap-6">
+            <div className="  animate grid grid-cols-2 gap-6">
               <div>
                 <label className="text-sm font-medium text-gray-700 flex items-center gap-2 mb-2">
                   <User size={18} /> Prénom

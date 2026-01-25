@@ -103,7 +103,7 @@
 };
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-8">
+      <div className= "  animate min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-8">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="mb-8">

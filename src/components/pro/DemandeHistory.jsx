@@ -30,16 +30,24 @@ function DemandeHistory() {
        useEffect(()=>{
         getDemandes();
        },[])
+       const demandesHistorique = demandes.filter((demande)=>demande.status==="Termine").length;
   return (
     <>
-    <div className='mb-10'>DemandeHistory</div>
+    <div className='mb-10 w-full flex items-center justify-center mt-10'
+    >
+      <h1 className='text-2xl font-bold font-sans '>Historique des demandes</h1>
+
+    </div>
         {loading && <p>Loading...</p>}
-    { demandes.length===0  && <p className=' flex items-center justify-center'>Aucune demande en historique.</p>}
+    { demandesHistorique===0  && <p className=' flex items-center justify-center'>Aucune demande en historique.</p>}
+
+        <div className='animate p-10'>
           {demandes.map((demande)=>(
-            demande.status!=="En attente" &&(
+            ( demande.status=="Termine") &&(
                <Demande key={demande._id} demande={demande} />
             )
           ))}
+        </div>
     </>
   )
 }

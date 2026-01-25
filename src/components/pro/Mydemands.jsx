@@ -43,7 +43,7 @@ function Mydemands() {
         )}
         
         {demandesEnAttente===0 && !loading && (
-          <div className="bg-white rounded-lg shadow-md p-12 text-center border border-gray-200">
+          <div className=" animate bg-white rounded-lg shadow-md p-12 text-center border border-gray-200">
             <p className='text-lg text-gray-600 font-medium'>Aucune demande en attente.</p>
           </div>
         )}

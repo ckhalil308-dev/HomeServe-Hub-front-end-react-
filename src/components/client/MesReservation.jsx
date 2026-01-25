@@ -11,48 +11,59 @@ function MesReservation() {
   const [states, setSteates] = useState({
     tous: 0,
     Enattente: 0,
-    Approuve: 0,
-    Rejete: 0
+    Termine: 0,
+    Rejete: 0,
+    Offreenvoyee: 0
   })
 
-  useEffect(() => {
-    const fetchDemandes = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const response = await getClientDemandes(filtre)
-        if (filtre === 'tous') {
-          setSteates({
-            tous: response.length,
-            Enattente: response.filter(d => d.status === 'En attente').length,
-            Approuve: response.filter(d => d.status === 'Approuve').length,
-            Rejete: response.filter(d => d.status === 'Rejete').length
-          })
-        }
-        setDemandes(response || [])
-      } catch (error) {
-        console.error("Error fetching demandes:", error)
-        setError(error.message)
-      } finally {
-        setLoading(false)
+ useEffect(() => {
+  const fetchDemandes = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // 1. Always fetch the 'tous' data once or alongside to keep counts accurate
+      // Or, if your API allows, fetch the specific filter
+      const response = await getClientDemandes(filtre);
+      
+      // 2. To keep counts accurate, we need the full list. 
+      // If your API returns everything when 'tous' is called:
+      if (filtre === 'tous') {
+        setSteates({
+          tous: response.length,
+          Enattente: response.filter(d => d.status === 'En attente').length,
+          Termine: response.filter(d => d.status === 'Termine').length,
+          Rejete: response.filter(d => d.status === 'Rejete').length,
+          Offreenvoyee: response.filter(d => d.status === 'Offre envoyée').length
+        });
       }
-    }
 
-    fetchDemandes()
-  }, [filtre])
+      setDemandes(response || []);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchDemandes();
+}, [filtre]);
 
   const counts = {
     tous: states.tous,
     'En attente': states.Enattente,
-    'Approuve': states.Approuve,
-    'Rejete': states.Rejete
+    'Termine': states.Termine,
+    'Rejete': states.Rejete,
+    'Offre envoyée': states.Offreenvoyee
   }
 
   const tabs = [
-    { key: 'tous', label: 'Tous' },
-    { key: 'En attente', label: 'En attente' },
-    { key: 'Approuve', label: 'Approuvées' },
-    { key: 'Rejete', label: 'Rejetées' }
+    
+   
+    { key: 'Offre envoyée', label: 'Offres reçues' },
+     { key: 'En attente', label: 'En attente' },
+    { key: 'Termine', label: 'Terminées' },
+    { key: 'Rejete', label: 'Rejetées' },
+    { key: 'tous', label: 'Tous' }
   ]
 
   if (error) {
@@ -86,7 +97,7 @@ function MesReservation() {
               onClick={() => setFiltre(tab.key)}
               className={`px-5 py-3 rounded-lg font-medium whitespace-nowrap transition-all ${
                 filtre === tab.key
-                  ? 'color text-black font-semibold  shadow-lg'
+                  ? 'color text-black font-semibold shadow-lg'
                   : 'bg-white text-gray-700 border border-gray-200 hover:border-blue-300'
               }`}
             >
@@ -116,9 +127,9 @@ function MesReservation() {
 
         {/* Reservations List */}
         {!loading && demandes.length > 0 && (
-          <div className="space-y-3 animate">
+          <div className="space-y-3">
             {demandes.map((demande) => (
-              <Reservation  key={demande._id} demande={demande}></Reservation>
+              <Reservation key={demande._id} demande={demande} />
             ))}
           </div>
         )}

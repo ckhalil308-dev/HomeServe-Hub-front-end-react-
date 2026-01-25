@@ -22,6 +22,8 @@ import ServiceDetails from './components/services/ServiceDetails.jsx';
 import MesReservation from './components/client/MesReservation.jsx';
 import Profil from './components/client/Profil.jsx';
 import EditService from './components/pro/EditService.jsx';
+import DemandeDeatils from './components/pro/DemandeDeatils.jsx';
+import DemandeEnCours from './components/pro/DemandeEnCours.jsx';
 
 
 
@@ -34,9 +36,12 @@ function App() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '0px' });
   const hideNavRoutes = ['/login', '/signup',  '/pro', '/pro/services', '/pro/add-service', '/pro/mes-demandes'
-  , '/pro/profile', '/pro/change-password', '/pro/demande-history'
+  , '/pro/profile', '/pro/change-password', '/pro/demande-history', '/pro/demande-en-cours','/pro/demande-details',
+    '/pro/edit-service'
   ];
-  const showNav = !hideNavRoutes.includes(location.pathname)
+  const showNav = !hideNavRoutes.some(route =>
+  location.pathname.startsWith(route)
+)
   return (
     <>
     <UserProvider>
@@ -78,14 +83,16 @@ function App() {
         <Route path='/pro' element={ <Privateguards roles={['professionnel']}>
       <NavDash />
     </Privateguards> }>
-        <Route index element={<Myservices />} />
+        <Route index element={ <Mydemands />} />
         <Route  path='services' element={<Myservices/>} />
         <Route path='mes-demandes' element={ <Mydemands />} />
         <Route path='add-service' element={<AddService />} />
         <Route path='profile' element={ <Myprofile />} />
         <Route path='change-password' element={ <ChangePassword />} />
         <Route path='demande-history' element={ <DemandeHistory />} />
+        <Route path='demande-en-cours' element={ <DemandeEnCours />} />
         <Route path='edit-service/:id' element={ <EditService />} />
+        <Route path='demande-details/:id' element={ <DemandeDeatils />} />
 
         
           

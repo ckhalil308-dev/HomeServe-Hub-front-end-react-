@@ -36,7 +36,7 @@ function ServiceCard({ service, onEdit,services, deleteServiceFromList }) {
         <div className="text-center">Loading...</div>
       </div>
     ) : (
-    <div className="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100">
+    <div className="  animate group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100">
       <div className="flex items-stretch">
         {/* Image Section */}
         <div className="relative w-40 h-40 flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">

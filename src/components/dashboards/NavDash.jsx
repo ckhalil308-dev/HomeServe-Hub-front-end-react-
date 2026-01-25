@@ -10,22 +10,24 @@ export default function SidebarNavbar() {
   const location = useLocation();
 
   const navItems = [
-    { href: '/pro/mes-demandes', label: 'Mes Demandes', icon: FileText, description: 'Vos demandes et applications' },
-    { href: '/pro/services', label: 'Mes Services', icon: Briefcase, description: 'Vos services et offres' },
-    { href: '/pro/profile', label: 'Mon Profile', icon: User, description: 'Votre profil personnel' },
-    { href: '/pro/demande-history', label: 'Historique des demandes', icon: History, description: 'Voir l\'historique des demandes' },
+    { href: '/pro/mes-demandes', label: 'Mes Demandes', icon: FileText, },
+     { href: '/pro/demande-en-cours', label: 'Demandes en cours', icon: FileText, },
+    { href: '/pro/services', label: 'Mes Services', icon: Briefcase, },
+   
+    { href: '/pro/profile', label: 'Mon Profile', icon: User, },
+    { href: '/pro/demande-history', label: 'Historique des demandes', icon: History,},
   ];
 
   const isActive = (href) => location.pathname === href;
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className=" animate flex flex-start  h-screen  ">
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 h-screen w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 z-40 lg:relative lg:translate-x-0 ${
+      <aside className={`fixed left-0 top-0 h-screen w-64 bg-white  border-[2px] border-teal-500  flex flex-col transition-transform duration-300 z-40 lg:relative lg:translate-x-0 ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         {/* Header */}
-        <div className="p-6 border-b border-slate-200">
+        <div className="p-6 ">
           <div className="flex items-center justify-between mb-6">
             <Link to="/" className="text-slate-600 hover:text-slate-900 transition-colors">
               <ArrowLeft className="w-5 h-5" />
@@ -39,8 +41,8 @@ export default function SidebarNavbar() {
           </div>
           
           {/* User Profile Card */}
-          <div className="rounded-xl p-4 ">
-            <div className="flex items-center gap-3 mb-3">
+          <div className="mr-10 ">
+            <div className="flex flex-start items-center gap-3 mb-3">
               <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-lg font-bold text-white">
                   {user.nom?.charAt(0)}{user.prenom?.charAt(0)}
@@ -57,11 +59,11 @@ export default function SidebarNavbar() {
             </div>
           </div>
 
-          <h1 className="text-xl font-bold text-slate-900 mt-4">Dashboard</h1>
+  
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+        <nav className="flex-1 p-4  mt-4 space-y-15 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.href);
@@ -70,9 +72,9 @@ export default function SidebarNavbar() {
                 key={item.href}
                 to={item.href}
                 onClick={() => setIsSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
+                className={`flex items-center t gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
                   active
-                    ? 'bg-teal-50 border border-teal-200 text-teal-700'
+                    ? 'bg-teal-50  text-teal-700'
                     : 'text-slate-700 hover:bg-slate-100'
                 }`}
               >
@@ -80,7 +82,7 @@ export default function SidebarNavbar() {
                   active ? 'text-teal-600' : 'group-hover:text-teal-600'
                 }`} />
                 <div className="flex-1 min-w-0">
-                  <p className={`font-medium text-sm truncate ${active ? 'text-teal-700' : ''}`}>
+                  <p className={`font-s text-sm truncate ${active ? 'text-teal-700' : ''}`}>
                     {item.label}
                   </p>
                   <p className={`text-xs truncate ${active ? 'text-teal-600' : 'text-slate-500'}`}>
@@ -118,7 +120,7 @@ export default function SidebarNavbar() {
       )}
 
       {/* Main content area */}
-      <main className="flex-1 overflow-auto">
+      <main className=" animate flex-1 overflow-auto">
         <Outlet />
       </main>
     </div>

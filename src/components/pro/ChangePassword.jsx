@@ -68,7 +68,7 @@ function ChangePassword({setPasswordChanging}) {
 
 
   return (
-    <div className="min-h-screen bg-white " style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif' }}>
+    <div className="  animate min-h-screen bg-white " style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif' }}>
       <div className="max-w-2xl">
         <div className="space-y-6">
           {submitError && (
