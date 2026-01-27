@@ -32,6 +32,7 @@ function ServiceDetails() {
   };
 
   useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
     fetchServiceDetails();
   }, [id]);
 

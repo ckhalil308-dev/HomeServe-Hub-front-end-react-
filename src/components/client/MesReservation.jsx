@@ -34,10 +34,10 @@ function MesReservation() {
           Termine: response.filter(d => d.status === 'Termine').length,
           Rejete: response.filter(d => d.status === 'Rejete').length,
           Offreenvoyee: response.filter(d => d.status === 'Offre envoyée').length
-        });
+        }); 
       }
 
-      setDemandes(response || []);
+      setDemandes(response );
     } catch (error) {
       setError(error.message);
     } finally {

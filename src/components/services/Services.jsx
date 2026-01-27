@@ -17,7 +17,7 @@ export default function ServicesPage() {
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const categories = ['tous', 'Plomberie', 'Électricité', 'Peinture', 'Climatisation', 'Réparation','Bricolage']
+  const categories = ['tous', 'Plomberie', 'Électricité', 'Peinture', 'CVC', 'Réparations générales', 'Sécurité']
   useEffect(() => {
     setSearchParams({
       minPrice: minPrice.toString(),

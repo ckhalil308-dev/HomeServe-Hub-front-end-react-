@@ -38,24 +38,19 @@ export function Navbar() {
   }
 
   const renderRoleNav = () => {
-    if (!user) return null
+    if (!user   ) return null
 
     const navMap = {
       client: [
         { label: "Mes demandes  ", path: "/reservation-client" },
-        { label: "Profile", path: "/profil-client" },
+        { label: "Profile", path: "/client-profile" },
       ],
       professionnel: [
         { label: "Dashboard", path: "/pro" },
     
         
       ],
-      admin: [
-        { label: "Dashboard", path: "/admin/dashboard" },
-        { label: "Users", path: "/admin/users" },
-        { label: "Professionals", path: "/admin/professionals" },
-        { label: "Services", path: "/admin/services" },
-      ],
+    
     }
 
     return navMap[user.role]?.map(({ label, path }) => (
@@ -64,9 +59,11 @@ export function Navbar() {
       </Link>
     ))
   }
+  // if(user && user.role==="admin"){
+  //   navigate("/admin")
+  // }
 
-  const isAdmin = user?.role === "admin"
-  const showServices = !isAdmin
+ 
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
@@ -88,16 +85,16 @@ export function Navbar() {
               Home
             </Link>
             
-            {showServices && (
+            
               <>
                 <a href="/#FAQ" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors">
                   F.A.Q
                 </a>
                
               </>
-            )}
+            
 
-            {showServices && (
+            
               <div className="relative group">
                 <button
                   onClick={() => navigate("/services")}
@@ -126,7 +123,7 @@ export function Navbar() {
                   </div>
                 </div>
               </div>
-            )}
+            
 
 
             {renderRoleNav()}
@@ -134,7 +131,7 @@ export function Navbar() {
 
           {/* User Section */}
           <div className="hidden lg:flex items-center gap-3">
-            {user ? (
+            {user && user.role !== "admin" ? (
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2">
                   <div className="h-8 w-8 rounded-full bg-teal-600 flex items-center justify-center text-white text-sm font-semibold">

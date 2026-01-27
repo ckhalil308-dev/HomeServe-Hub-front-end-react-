@@ -36,12 +36,17 @@ export default function ServiceInfo({service,setCommander}) {
             </div>
 
             {/* Description */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               <p className="text-sm font-medium text-slate-700">Description</p>
-              <p className="text-slate-600 leading-relaxed text-base">
-                {service.description}
-              </p>
-            </div>
+             <p className="text-slate-600 leading-relaxed text-base text-left">
+     {service.description.split('\n').map((line, idx) => (
+    <span key={idx}>
+      {line}
+      <br />
+    </span>
+  ))}
+</p>
+</div>
 
             {/* Action Buttons */}
             {user&& user.role === 'professionnel' &&(

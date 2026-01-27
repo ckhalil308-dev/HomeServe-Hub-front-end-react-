@@ -13,12 +13,12 @@
            );
           }
             if (!user) {
-                return <Navigate to="/" />;
+                return <Navigate to="/" replace />;
             }
 
         
             if (roles && !roles.includes(user?.role)) {
-                return <Navigate to="/" />; 
+                return <Navigate to="/" replace />; 
             }
 
 

@@ -1,15 +1,17 @@
 import api from './AxiosInstance';
 
-export const getUsers = async ()=>{
-    const response = await api.get('/users/all');
+export const getUsers = async (search,page)=>{
+    const response = await api.get(`/users/all/?Search=${search}&page=${page}`);
     return response.data;
 }
-export const getPros=async()=>{
-    const response = await api.get('/users/pros');
+export const getPros=async(search,page)=>{
+    const search2=search.trim();
+    const response = await api.get(`/users/pros?Search=${search2}&page=${page}`);
     return response.data;
 }
-export const getClients=async()=>{
-    const response = await api.get('/users/clients');
+export const getClients=async(search,page)=>{
+     const search2=search.trim();
+    const response = await api.get(`/users/clients?Search=${search2}&page=${page}`);
     return response.data;
 }
 export const GetMe=async()=>{

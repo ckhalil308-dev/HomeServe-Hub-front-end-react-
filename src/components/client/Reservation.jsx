@@ -71,6 +71,9 @@ function Reservation({ demande }) {
       setLoading(false)
     }
   }
+  if (!demande.service) {
+    return null; // or some fallback UI
+  }
 
   return (
     <div
@@ -80,7 +83,7 @@ function Reservation({ demande }) {
         <div className="flex-1">
           {/* Title and Status */}
           <div className="flex items-center gap-3 mb-3 flex-wrap">
-            <h2 className="text-xl font-bold text-gray-900">{demande.service.titre}</h2>
+            <h2 className="text-xl font-bold text-gray-900">{demande.service.titre||'non Disponible'}</h2>
             <span
               className={`px-3 py-1 rounded-full text-sm font-medium inline-flex items-center gap-2 ${getStatusBadge(
                 demande.status
@@ -95,7 +98,7 @@ function Reservation({ demande }) {
           <div className="flex items-center gap-2 mb-3 text-gray-700">
             <User className="w-5 h-5 text-blue-600" />
             <span className="font-semibold">
-              {demande.service.professionnelId.prenom} {demande.service.professionnelId.nom}
+              {demande.service.professionnelId.prenom || 'Non Disponible'} {demande.service.professionnelId.nom || 'Non Disponible'}
             </span>
           </div>
 

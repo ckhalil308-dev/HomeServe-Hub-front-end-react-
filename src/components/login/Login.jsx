@@ -15,7 +15,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
     const navigate = useNavigate()
-    const { setUser, fetchUser } = useUser()
+    const { setUser, fetchUser, user } = useUser()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -26,8 +26,13 @@ export default function LoginForm() {
         console.log( data);
         localStorage.setItem("token",data.token);
         await fetchUser();
-        alert("Connexion réussie !");
-        navigate("/");
+        // alert("Connexion réussie !");
+        if (data.user?.role === "admin") {
+      navigate("/admin")
+       } else {
+      navigate("/")
+      }
+
 
 
 
