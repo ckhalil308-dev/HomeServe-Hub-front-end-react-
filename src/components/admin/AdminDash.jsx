@@ -15,6 +15,7 @@ function AdminDash() {
   const[nombreClientsCetteSemaine,setNombreClientsCetteSemaine]=useState(0);
   const[totaleDemandes,setTotaleDemandes]=useState(0);
   const [DemandeRecente,setDemandeRecente]=useState([]);
+ const [ProsEnattente, setProsEnattente] = useState([]);
   const[Loading,setLoading]=useState(false);
   useEffect(()=>{
      
@@ -22,13 +23,15 @@ function AdminDash() {
         setLoading(true);
         const query={};
         try{
-          const pros = await getPros("", 0);
+          const pros = await getPros("", 1);
           const clients = await getClients("", 0);
           const DemandesTotales=await getAllDemandes("",1);
           
           setTotaleDemandes(DemandesTotales.termine);
           setDemandeRecente(DemandesTotales.recentes);
-          console.log("Demandes Recents:",DemandesTotales.recentes);
+          setProsEnattente(pros.ProsNonVerifie);
+
+       
            setNombrePros(pros.total);
           setNombreClients(clients.total);
           setNombreProsCetteSemaine(pros.nouveaux);
@@ -42,6 +45,7 @@ function AdminDash() {
       };
       fetchProsAndClients();
   },[]);
+    
 
 
   
@@ -69,30 +73,22 @@ function AdminDash() {
    ]
       const headerTab=[
       "Client",
-      "Ville",
-      "Type",
+      "Adresse",
+      "Status",
+      "Catégorie",
+      "Status",
+
+    ]
+     const headerTab2=[
+      "pro",
+      "email",
+      "specialité",   
+      "Date D'inscription",
+      
       "Status"
     ]
-   const tab2=[
-    {
-      nom:"John Doe",
-      ville:"Paris",
-      type:"Plomberie",
-      status:"En attente"
-    },
-    {
-      nom:"Jane Smith",
-      ville:"Lyon",
-      type:"Électricité",
-      status:"Terminé"
-    },
-    {
-      nom:"Mike Johnson",
-      ville:"Marseille",
-      type:"Peinture",
-      status:"Rejeté"
-    },
-   ]
+   
+ 
   return (
     <>
      <div className='animate mt-15 flex justify-center gap-[50%] items-center mb-[5%] '>
@@ -128,6 +124,7 @@ function AdminDash() {
       <div className='flex justify-center gap-20'>
       <div className="w-[50%] shadow-md rounded-lg p-6">
         <AdminDashTable 
+          title="Demandes Récentes"
            headerTab={headerTab}
            tab2={DemandeRecente}
         ></AdminDashTable>
@@ -135,8 +132,9 @@ function AdminDash() {
      </div>
        <div className="w-[50%] shadow-md rounded-lg p-6">
         <AdminDashTable 
-           headerTab={headerTab}
-           tab2={DemandeRecente}
+         title="Pros en attente de vérification"
+           headerTab={headerTab2}
+           tab2={ProsEnattente}
         ></AdminDashTable>
  
      </div>

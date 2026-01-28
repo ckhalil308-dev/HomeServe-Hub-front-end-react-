@@ -31,6 +31,7 @@ import ListeClient from './components/admin/ListeClient.jsx';
 import ListeDemandes from './components/admin/ListeDemandes.jsx';
 import AdminSettings from './components/admin/AdminSettings.jsx';
 import VerifierPro from './components/admin/VerifierPro.jsx';
+import BannedUsers from './components/admin/BannedUsers.jsx';
 
 
 
@@ -112,6 +113,7 @@ function App() {
             <Route path='liste-demandes' element={<ListeDemandes/>} />
             <Route path='Parametre' element={<AdminSettings />} />
             <Route path='verifier-pros' element={<VerifierPro/>} />
+            <Route path='BannedUsers'  element={<BannedUsers></BannedUsers>} />
           </Route>
 
           <Route path='*' element={<div>404 Not Found</div>} />

@@ -5,6 +5,7 @@ import HeaderTabAdmin from './HeaderTabAdmin';
 import Searchbar from './Searchbar';
 import Pagination from './Pagination';
 import AdminTableUsers from './AdminTableUsers';
+import { set } from 'lodash';
 function VerifierPro() {
     const [pros, setPros] = useState([]);
     const [search, setSearch] = useState('');
@@ -25,6 +26,7 @@ function VerifierPro() {
                 console.log("Pros non verifie fetched:", data);
                 setPros(data.ProsNonVerifie);
                 setTotalPages(data.TotalNonVerifie);
+                setPage(data.currentPage);
 
 
             } catch (error) {

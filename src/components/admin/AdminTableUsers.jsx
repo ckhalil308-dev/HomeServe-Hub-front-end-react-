@@ -1,7 +1,7 @@
 import { Check } from 'lucide-react'
 import React, { use } from 'react'
 import { useState } from 'react';
-import { BanUser, ModifyUsersByAdmin, verifyProfessional } from '../../../api/Users.api';
+import { BanUser, ModifyUsersByAdmin, unBanUser, verifyProfessional } from '../../../api/Users.api';
 import { Edit, Ban, X } from 'lucide-react';
 
 function AdminTableUsers({ users, loading, tabHeaders }) {
@@ -63,6 +63,19 @@ function AdminTableUsers({ users, loading, tabHeaders }) {
       console.error("Verification failed", error);
     }
   }
+  const UnbanUsers=async(userID)=>{
+     const confirmUnban = window.confirm(
+    "Are you sure you want to unban this user?"
+  );
+  if (!confirmUnban) return;
+    try {
+      await unBanUser(userID);
+      window.location.reload();
+    }
+    catch (error) {
+      console.error("Unbanning failed", error);
+    }
+  }
   const BanUsers=async(userID)=>{
      const confirmBan = window.confirm(
     "Are you sure you want to ban this user?"
@@ -122,50 +135,65 @@ function AdminTableUsers({ users, loading, tabHeaders }) {
                 <td className="px-8 py-4 text-sm text-gray-600 group-hover:text-gray-900 transition">
                   {user.email}
                 </td>
-             
-                {user.role === 'professionnel' && (
+                {user.isBanned ? (
                   <>
-                    <td className="px-8 py-4 text-sm text-gray-700">
-                      {user.specialite || 'N/A'}
+                  <td className="px-8 py-4 text-sm text-gray-700">{user.role}</td>
+                   <td>
+                      <button
+                        onClick={() => UnbanUsers(user._id)}
+                        className="p-2 flex gap-2 items-center justify-center text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-600 hover:text-white transition-colors duration-200"
+                        title="Débannir l'utilisateur"
+                      >
+                        <p className='text-sm'>Débannir </p>
+                        <Check size={18} />
+                      </button>
                     </td>
-
-                    <td className={`px-8 py-4 text-sm text-gray-700 ${user.isVerified ? 'text-green-600' : 'text-red-600'} transition`}>
-                      {user.isVerified ? 'Verifié' : 'Non Vérifié'}
+                  
+                  </>
+                  
+                ) : (
+                  <>
+                    {user.role === 'professionnel' && (
+                      <>
+                        <td className="px-8 py-4 text-sm text-gray-700">
+                          {user.specialite || 'N/A'}
+                        </td>
+                        <td className={`px-8 py-4 text-sm text-gray-700 ${user.isVerified ? 'text-green-600' : 'text-red-600'} transition`}>
+                          {user.isVerified ? 'Verifié' : 'Non Vérifié'}
+                        </td>
+                      </>
+                    )}
+                    {user.role === 'professionnel' && !user.isVerified && tabHeaders.includes("Vérification") && (
+                      <td className='flex justify-center  items-center'>
+                        <button onClick={() => handleVerify(user._id)} className='w-[50%] mt-2 mr-14   p-2 flex items-center gap-2 justify-center text-sm  
+                         rounded-lg bg-blue-100  hover:bg-blue-600 hover:text-white text-blue-700  '>Verifier<Check size={18} />    
+                        </button>
+                      </td>
+                    )}
+                    <td>
+                      <button
+                        className="p-2  text-blue-600 bg-blue-50   gap-2 items-center justify-center flex rounded-lg hover:bg-blue-600 hover:text-white transition-colors duration-200"
+                        title="Modifier l'utilisateur"
+                        onClick={() => openEditModal(user)}
+                      >
+                        <p className='text-sm' > Modifier </p>
+                        <Edit size={18} />
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => BanUsers(user._id)}
+                        className="p-2 flex gap-2 items-center justify-center text-red-600 bg-red-50 rounded-lg hover:bg-red-600 hover:text-white transition-colors duration-200"
+                        title="Bannir l'utilisateur"
+                      >
+                        <p className='text-sm'>Bannir </p>
+                        <Ban size={18} />
+                      </button>
                     </td>
                   </>
-
-
                 )}
-                {user.role === 'professionnel' && !user.isVerified && tabHeaders.includes("Vérification") && (
-                  <td className='flex justify-center  items-center' ><button onClick={() => handleVerify(user._id)} className='w-[50%] mt-2 mr-14   p-2 flex items-center gap-2 justify-center text-sm  
-                   rounded-lg bg-blue-100  hover:bg-blue-600 hover:text-white text-blue-700  '>Verifier<Check size={18} />    
-                    </button> </td>
-                )}
-                   <td>
-                  <button
-                    className="p-2  text-blue-600 bg-blue-50   gap-2 items-center justify-center flex rounded-lg hover:bg-blue-600 hover:text-white transition-colors duration-200"
-                    title="Modifier l'utilisateur"
-                    onClick={() => openEditModal(user)}
-                  >
-                   <p className='text-sm' > Modifier </p>
-                    <Edit size={18} />
-                  </button>
-
-                </td>
-                <td>
-                  <button
-                    onClick={() => BanUsers(user._id)}
-                    className="p-2 flex gap-2 items-center justify-center text-red-600 bg-red-50 rounded-lg hover:bg-red-600 hover:text-white transition-colors duration-200"
-                    title="Bannir l'utilisateur"
-                  >
-                    <p className='text-sm'>Bannir </p>
-                    <Ban size={18} />
-                  </button>
-                </td>
               </tr>
-
             ))
-            
           )}
         </tbody>
       </table>

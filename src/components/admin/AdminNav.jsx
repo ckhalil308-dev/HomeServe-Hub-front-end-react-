@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, ClipboardList, Settings, LogOut, ShieldCheck, Briefcase } from 'lucide-react';
+import { LayoutDashboard, Users, ClipboardList, Settings, LogOut, ShieldCheck, Briefcase, BanIcon } from 'lucide-react';
 
  
 function AdminNav() {
@@ -20,6 +20,7 @@ function AdminNav() {
     { name: 'Liste clients', path: '/admin/liste-clients', icon: <Users size={20} /> },
     { name: 'Liste pros', path: '/admin/liste-pros', icon: <Briefcase size={20} /> },
     { name: 'Demandes', path: '/admin/liste-demandes', icon: <ClipboardList size={20} /> },
+    { name: 'Utilisateurs bannis', path: '/admin/BannedUsers', icon: <BanIcon size={20} /> },
     { name: 'Paramètres', path: '/admin/Parametre', icon: <Settings size={20} /> 
       },
 

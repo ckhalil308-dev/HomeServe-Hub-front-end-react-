@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getClientDemandes } from '../../../api/Demande.Api'
 import { Calendar, DollarSign, AlertCircle, CheckCircle, XCircle, Loader2, User } from 'lucide-react'
+import Pagination from '../admin/Pagination'
 import Reservation from './Reservation'
 
 function MesReservation() {
@@ -8,6 +9,8 @@ function MesReservation() {
   const [error, setError] = useState(null)
   const [demandes, setDemandes] = useState([])
   const [filtre, setFiltre] = useState('tous')
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [states, setSteates] = useState({
     tous: 0,
     Enattente: 0,
@@ -15,29 +18,28 @@ function MesReservation() {
     Rejete: 0,
     Offreenvoyee: 0
   })
+  useEffect(() => {
+  setPage(1);
+}, [filtre]);
 
  useEffect(() => {
   const fetchDemandes = async () => {
     setLoading(true);
     setError(null);
     try {
-      // 1. Always fetch the 'tous' data once or alongside to keep counts accurate
-      // Or, if your API allows, fetch the specific filter
-      const response = await getClientDemandes(filtre);
       
-      // 2. To keep counts accurate, we need the full list. 
-      // If your API returns everything when 'tous' is called:
-      if (filtre === 'tous') {
+      const response = await getClientDemandes(filtre,page);
         setSteates({
-          tous: response.length,
-          Enattente: response.filter(d => d.status === 'En attente').length,
-          Termine: response.filter(d => d.status === 'Termine').length,
-          Rejete: response.filter(d => d.status === 'Rejete').length,
-          Offreenvoyee: response.filter(d => d.status === 'Offre envoyée').length
+          tous: response.touslesDemandesCount,
+          Enattente: response.demandesEnAttenteCount,
+          Termine: response.demandesTermineesCount,
+          Rejete: response.demandesRejeteCount,
+          Offreenvoyee: response.demandesOffreEnvoyeeCount
         }); 
-      }
+        setTotalPages(getTotalPages(response, filtre));
+    
 
-      setDemandes(response );
+      setDemandes(response.demandes);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -46,7 +48,24 @@ function MesReservation() {
   };
 
   fetchDemandes();
-}, [filtre]);
+}, [filtre, page]);
+const getTotalPages = (response, filtre) => {
+  const limit = 5;
+  switch (filtre) {
+    case 'tous':
+      return Math.ceil(response.touslesDemandesCount / limit);
+    case 'En attente':
+      return Math.ceil(response.demandesEnAttenteCount / limit);
+    case 'Termine':
+      return Math.ceil(response.demandesTermineesCount / limit);
+    case 'Rejete':
+      return Math.ceil(response.demandesRejeteCount / limit);
+    case 'Offre envoyée':
+      return Math.ceil(response.demandesOffreEnvoyeeCount / limit);
+    default:
+      return 1;
+  }
+};
 
   const counts = {
     tous: states.tous,
@@ -131,7 +150,9 @@ function MesReservation() {
             {demandes.map((demande) => (
               <Reservation key={demande._id} demande={demande} />
             ))}
+            <Pagination currentPage={page} totalPages={totalPages} setPage={setPage} />
           </div>
+
         )}
       </div>
     </div>

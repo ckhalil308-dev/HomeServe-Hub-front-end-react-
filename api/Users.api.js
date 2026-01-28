@@ -48,7 +48,7 @@ export const unBanUser=async(userId)=>{
     return response.data;
 }
 export const getBannedUsers=async(search,page)=>{
-    const response = await api.get(`/users/BannedUsers`);
+    const response = await api.get(`/users/BannedUsers/?Search=${search}&page=${page}`);
     return response.data;
 }
 export const ModifyUsersByAdmin=async(userId,userData)=>{

@@ -1,7 +1,7 @@
 import api from "./AxiosInstance";
 
 export const getClientDemandes = async (filter, page) => {
-    const response = await api.get('/demandes/client/demandes?status=' + filter);
+    const response = await api.get('/demandes/client/demandes?status=' + filter+ '&page=' + page    );
     return response.data;
 }
 export const getProfessionalDemandes = async () => {

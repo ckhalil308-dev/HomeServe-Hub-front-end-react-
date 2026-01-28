@@ -13,6 +13,7 @@ function ListeClient() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+ 
   const [debouncedSearch, setDebouncedSearch] = useState(search);
    const tabHeaders=[
     "Nom",
@@ -35,6 +36,7 @@ function ListeClient() {
       try {
         const res = await getClients(debouncedSearch, page);
         setClients(res.clients);
+        setPage(res.currentPage);
         setTotalPages(res.totalPages);
       } catch (error) {
         console.error('Failed to fetch clients:', error);

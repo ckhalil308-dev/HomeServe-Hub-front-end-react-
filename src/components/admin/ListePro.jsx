@@ -5,6 +5,7 @@ import AdminTableUsers from './AdminTableUsers';
 import HeaderTabAdmin from './HeaderTabAdmin';
 import Pagination from './Pagination';
 import Searchbar from './Searchbar';
+import { set } from 'lodash';
 
 
 function ListePro() {
@@ -43,6 +44,7 @@ function ListePro() {
             setTotalPages(res.totalPages);
             console.log("Pros fetched:", res);
             setPros(res.allPros);
+            setPage(res.currentPage);
             
           } catch (error) {
             console.error('Failed to fetch pros:', error);
