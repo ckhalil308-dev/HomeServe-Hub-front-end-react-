@@ -13,12 +13,27 @@ function ListeClient() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+   const tabHeaders=[
+    "Nom",
+    "Prenom"  ,
+    "Email",
+    "Modifier", 
+    "Bannir"
+  ]
+  useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(search);
+  }, 400); // debounce delay
+ 
 
+  return () => clearTimeout(timer);
+}, [search]);
   useEffect(() => {
     const fetchClients = async () => {
       setLoading(true);
       try {
-        const res = await getClients(search, page);
+        const res = await getClients(debouncedSearch, page);
         setClients(res.clients);
         setTotalPages(res.totalPages);
       } catch (error) {
@@ -28,7 +43,7 @@ function ListeClient() {
       }
     };
     fetchClients();
-  }, [search, page]);
+  }, [debouncedSearch, page]);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -42,10 +57,10 @@ function ListeClient() {
         <HeaderTabAdmin role="client" description="Manage and view all your clients" />
 
         {/* Search Bar */}
-         <Searchbar value={search} onChange={handleSearch} placeholder="Search clients..." />
+         <Searchbar   search={search} handleSearch={handleSearch} placeholder="Search clients..." />
 
         {/* Table */}
-        <AdminTableUsers users={clients} loading={loading} />
+        <AdminTableUsers users={clients} loading={loading} tabHeaders={tabHeaders} />
 
         {/* Pagination */}
        <Pagination currentPage={page} totalPages={totalPages} setPage={setPage} />

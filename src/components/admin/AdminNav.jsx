@@ -16,10 +16,13 @@ function AdminNav() {
 
   const menuItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard size={20} /> },
+    { name: 'Vérifier Pros', path: '/admin/verifier-pros', icon: <ShieldCheck size={20} /> },
     { name: 'Liste clients', path: '/admin/liste-clients', icon: <Users size={20} /> },
     { name: 'Liste pros', path: '/admin/liste-pros', icon: <Briefcase size={20} /> },
-    { name: 'Demandes', path: '/admin/demandes', icon: <ClipboardList size={20} /> },
-    { name: 'Paramètres', path: '/admin/settings', icon: <Settings size={20} /> },
+    { name: 'Demandes', path: '/admin/liste-demandes', icon: <ClipboardList size={20} /> },
+    { name: 'Paramètres', path: '/admin/Parametre', icon: <Settings size={20} /> 
+      },
+
   ];
 
   return (

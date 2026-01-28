@@ -24,7 +24,7 @@ function AdminDash() {
         try{
           const pros = await getPros("", 0);
           const clients = await getClients("", 0);
-          const DemandesTotales=await getAllDemandes();
+          const DemandesTotales=await getAllDemandes("",1);
           
           setTotaleDemandes(DemandesTotales.termine);
           setDemandeRecente(DemandesTotales.recentes);

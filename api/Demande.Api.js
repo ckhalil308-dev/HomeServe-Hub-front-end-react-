@@ -24,7 +24,7 @@ export const ProposerPrix=async(demandeId,prixData)=>{
     const response=await api.put(`/demandes/pro/offer/${demandeId}`,prixData);
     return response.data;
 }
-export const getAllDemandes=async()=>{
-    const response=await api.get('/demandes/allDemandes');
+export const getAllDemandes=async(status,page)=>{
+    const response=await api.get('/demandes/allDemandes/?status='+status+'&page='+page);
     return response.data;
 }

@@ -13,19 +13,37 @@ function ListePro() {
       const [page, setPage] = useState(1);
       const [totalPages, setTotalPages] = useState(1);
       const [loading, setLoading] = useState(false);
+        const [debouncedSearch, setDebouncedSearch] = useState(search);
+        useEffect(() => {
+        const timer = setTimeout(() => {
+          setDebouncedSearch(search);
+        }, 400); // debounce delay
+        return () => clearTimeout(timer);
+      }, [search]);
+      
         const handleSearch = (e) => {
     setSearch(e.target.value);
     setPage(1);
   };
+   const tabHeaders=[
+    "Nom",
+    "Prenom"  ,
+    "Email",
+    "spécialité",
+    "Statut",
+       "Modifier", 
+        "Bannir"
+  ]
     
       useEffect(() => {
         const fetchPros = async () => {
           setLoading(true);
           try {
-            const res = await getPros(search, page);
+            const res = await getPros(debouncedSearch, page);
+            setTotalPages(res.totalPages);
             console.log("Pros fetched:", res);
             setPros(res.allPros);
-            setTotalPages(res.totalPages);
+            
           } catch (error) {
             console.error('Failed to fetch pros:', error);
           } finally {
@@ -33,14 +51,14 @@ function ListePro() {
           }
         };
         fetchPros();
-      }, [search, page]);
+      }, [debouncedSearch, page]);
   return (
     <>
       <div className="animate min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8"> 
 
-      <HeaderTabAdmin role="professionnel" description="Manage and view all your professionals" />
-       <Searchbar value={search} onChange={handleSearch} placeholder="Search professionals..." />
-    <AdminTableUsers users={pros} loading={loading} />
+      <HeaderTabAdmin role="professionnels" description="Manage and view all your professionals" />
+       <Searchbar search={search} handleSearch={handleSearch} placeholder="Search professionals..." />
+    <AdminTableUsers users={pros} loading={loading} tabHeaders={tabHeaders} />
     <Pagination currentPage={page} totalPages={totalPages} setPage={setPage} />
     </div>
     </>

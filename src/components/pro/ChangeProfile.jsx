@@ -86,7 +86,7 @@ function ChangeProfile({formData, setFormData,user,isEditing,setIsEditing,fetchU
 
   }
   return (
-     <div className="space-y-6">
+     <div className="animate space-y-6">
         {submitError && (
                 <p className="text-red-500 text-sm mb-4">{submitError}</p>
         )

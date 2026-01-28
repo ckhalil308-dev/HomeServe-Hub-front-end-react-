@@ -28,6 +28,9 @@ import AdminDash from './components/admin/adminDash.jsx';
 import AdminNav from './components/admin/adminNav.jsx';
 import ListePro from './components/admin/ListePro.jsx';
 import ListeClient from './components/admin/ListeClient.jsx';
+import ListeDemandes from './components/admin/ListeDemandes.jsx';
+import AdminSettings from './components/admin/AdminSettings.jsx';
+import VerifierPro from './components/admin/VerifierPro.jsx';
 
 
 
@@ -106,6 +109,9 @@ function App() {
             <Route path='dashboard' element={<AdminDash/>} />
             <Route path='liste-pros' element={<ListePro/>} />
             <Route path='liste-clients' element={<ListeClient/>} />
+            <Route path='liste-demandes' element={<ListeDemandes/>} />
+            <Route path='Parametre' element={<AdminSettings />} />
+            <Route path='verifier-pros' element={<VerifierPro/>} />
           </Route>
 
           <Route path='*' element={<div>404 Not Found</div>} />
