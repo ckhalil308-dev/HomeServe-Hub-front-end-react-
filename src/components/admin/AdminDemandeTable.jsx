@@ -43,10 +43,10 @@ function AdminDemandeUsers({ Demandes , loading , tabHeaders}) {
                     </td>
                     <td className="px-8 py-4 text-sm text-gray-700">{demande.client.prenom}</td>
                     <td className="px-8 py-4 text-sm text-gray-600 group-hover:text-gray-900 transition">
-                      {demande.service.titre}
+                      {demande?.service?.titre || 'service supprimé'}
                     </td>
                     <td className="px-8 py-4 text-sm text-gray-600 group-hover:text-gray-900 transition">
-                       <p >{demande.service.category }</p> 
+                       <p >{demande?.service?.category || 'catégorie supprimée'}</p> 
 
                     </td>
 

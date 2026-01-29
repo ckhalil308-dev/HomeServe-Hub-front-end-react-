@@ -29,16 +29,17 @@ html, body, #root {
     font-family: dm-sans, sans-serif;
 }
 @keyframes fadeSlideUp {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(30px) scale(0.98); /* Starts lower and slightly smaller */
   }
-  to {
+  100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Reusable class */
 .animate {
-  animation: fadeSlideUp 0.5s linear ;}
+  animation: fadeSlideUp 4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  /* 'forwards' ensures it stays visible after animating */
+}

@@ -101,7 +101,7 @@ function FilterBar({
                 max="500"
                 value={localMax}
                 onChange={(e) => setLocalMax(Number(e.target.value))}
-                className="w-full h-2 bg rounded-full appearance-none cursor-pointer accent-blue-600"
+                className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-sky-300"
               />
             </div>
           </div>

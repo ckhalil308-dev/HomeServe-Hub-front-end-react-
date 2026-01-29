@@ -6,32 +6,39 @@ export function ServiceCard(props) {
   const navigate = useNavigate()
 
   return (
-    <div className=" w-[240px] h-[320px] bg-teal-100 p-5 hover:scale-[1.02] transition duration-300 ease-in-out ">
-      {/* Icon */}
-      <div className="flex justify-center">
-        <Icon className="h-12 w-12 text-teal-700" />
-      </div>
-
-      {/* Title */}
-      <h3 className="mt-3 text-center text-lg font-semibold text-teal-900">{props.title}</h3>
-
-      {/* Features box */}
-      <div className="mt-5  bg-white p-4 shadow-sm">
-        <div className="space-y-3">
-          {props.features.map((feature, index) => (
-            <div key={index} className="flex items-center gap-2.5">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center  bg-teal-500">
-                <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
-              </div>
-              <span className="text-sm text-gray-700">{feature}</span>
-            </div>
-          ))}
+    <div className="group w-[280px] min-h-[380px] bg-white rounded-[2rem] p-6 shadow-xl shadow-gray-200/50 border border-gray-100 hover:scale-[1.03] transition-all duration-300 ease-out flex flex-col">
+      
+      {/* Icon Header */}
+      <div className="flex flex-col items-center gap-4 mb-6">
+        <div className="h-16 w-16 bg-teal-50 rounded-2xl flex items-center justify-center group-hover:bg-teal-500 transition-colors duration-300">
+          <Icon className="h-8 w-8 text-teal-600 group-hover:text-white transition-colors" />
         </div>
+        <h3 className="text-xl font-extrabold text-gray-900 tracking-tight">
+          {props.title}
+        </h3>
       </div>
 
-      {/* See more button */}
-      <button onClick={() => navigate(`${props.link}`)} className="mt-5 w-full rounded-xl border border-teal-300 bg-white px-4 py-2.5 text-sm font-bold text-teal-800 transition-colors hover:bg-teal-50">
-        voirs plus →
+      {/* Features List */}
+      <div className="flex-grow space-y-4">
+        {props.features.map((feature, index) => (
+          <div key={index} className="flex items-start gap-3">
+            <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-100/80">
+              <Check className="h-3 w-3 text-teal-700" strokeWidth={4} />
+            </div>
+            <span className="text-sm font-medium text-gray-600 leading-tight">
+              {feature}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Button - Clean & Sharp */}
+      <button 
+        onClick={() => navigate(`${props.link}`)} 
+        className="mt-8 w-full rounded-2xl bg-gray-950 py-4 text-sm font-black text-white transition-all hover:bg-gray-800 hover:shadow-lg active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest"
+      >
+        Voir Plus
+        <span className="group-hover:translate-x-1 transition-transform">→</span>
       </button>
     </div>
   )
