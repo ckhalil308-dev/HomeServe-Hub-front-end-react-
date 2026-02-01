@@ -25,6 +25,7 @@
       if(!form.date) newErrors.date="La date est requise.";
       if(!form.adresse) newErrors.adresse="L'adresse est requise.";
       if(!form.numeroTelephone) newErrors.numeroTelephone="Le numéro de téléphone est requis.";
+      if(!form.numeroTelephone.match(/^(?:\+216|216)?[2-9]\d{7}$/)) newErrors.numeroTelephone="Le numéro de téléphone n'est pas valide.";
 
       setError(newErrors);
       return Object.keys(newErrors).length===0;
@@ -128,7 +129,7 @@
         <input 
           className='w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500' 
           type="tel"
-          placeholder="Entrez votre numéro de téléphone"
+          placeholder="216+xxxxxxxxx"
           value={form.numeroTelephone}
           onChange={(e) => setForm({...form, numeroTelephone: e.target.value})}
         />

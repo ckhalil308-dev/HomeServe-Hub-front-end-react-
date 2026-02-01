@@ -115,7 +115,7 @@ function HeroSection() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-20">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
         <ArrowDown size={24} className="text-gray-950" />
       </div>
     </section>

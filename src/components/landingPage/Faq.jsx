@@ -6,38 +6,32 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
   const nav = useNavigate();
 
-  const faqs = [
-    {
-      question: "Comment choisir un service ?",
-      answer: "Consultez notre page de services où tous les types d'interventions sont listés (plomberie, électricité, etc.). Cliquez sur le service souhaité et remplissez le formulaire de demande avec les détails de votre besoin."
-    },
-    {
-      question: "Comment les professionnels proposent-ils leurs prix ?",
-      answer: "Après réception de votre demande, plusieurs professionnels vous répondront avec leurs devis détaillés. Vous pouvez comparer les prix, les délais et les avis avant de choisir le professionnel qui vous convient le mieux."
-    },
-    {
-      question: "Où puis-je suivre ma demande ?",
-      answer: "Un espace de suivi dédié vous permet de consulter l'état de votre demande en temps réel. Vous y verrez tous les professionnels qui ont répondu, leurs devis respectifs et l'historique de vos échanges."
-    },
-    {
-      question: "Comment fonctionne le statut de ma demande ?",
-      answer: "Votre demande passe par plusieurs statuts : 'En attente de réponses' → 'Réponses reçues' → 'Service en cours' → 'Terminé'. Vous recevez des notifications à chaque changement de statut."
-    },
-    {
-      question: "Comment accepter une offre d'un professionnel ?",
-      answer: "Dans votre espace de suivi, sélectionnez le devis qui vous plaît et cliquez sur 'Accepter l'offre'. Le professionnel sera notifié et vous contactera pour convenir des détails et de la date d'intervention."
-    },
-    {
-      question: "Puis-je voir les avis et commentaires des professionnels ?",
-      answer: "Oui ! Chaque professionnel a un profil avec ses avis clients, ses certifications et son expérience. Vous pouvez consulter ces informations avant de sélectionner une offre."
-    },
-    {
-      question: "Comment puis-je communiquer avec le professionnel choisi ?",
-      answer: "Un système de messagerie intégré vous permet de communiquer directement avec le professionnel. Vous pouvez poser des questions, confirmer les détails et suivre la progression du travail."
-    },
-   
-  ];
-
+const faqs = [
+  {
+    question: "Comment l'IA m'aide-t-elle à trouver un service ?",
+    answer: "Grâce à notre technologie intelligente (Groq), décrivez simplement votre problème. L'IA analyse votre texte et vous oriente automatiquement vers la catégorie de service idéale pour résoudre votre souci."
+  },
+  {
+    question: "Comment puis-je contacter le professionnel ?",
+    answer: "Pour votre sécurité, vos coordonnées restent privées. Le professionnel pourra voir votre numéro de téléphone et vous appeler uniquement après que vous aurez accepté sa proposition de prix."
+  },
+  {
+    question: "Les professionnels sont-ils fiables ?",
+    answer: "Oui. Chaque professionnel est vérifié manuellement par notre administrateur avant de pouvoir postuler. De plus, vous pouvez consulter les avis laissés par d'autres clients pour faire votre choix."
+  },
+  {
+    question: "Comment se déroule la fixation du prix ?",
+    answer: "Une fois votre demande envoyée, le professionnel l'analyse et propose un prix via son dashboard. Vous recevez cette offre et vous êtes libre de l'accepter ou de la refuser directement depuis votre espace."
+  },
+  {
+    question: "Comment sont contrôlés les avis ?",
+    answer: "Vous ne pouvez laisser un avis que si l'intervention est marquée comme terminée. Chaque commentaire est ensuite scanné par notre IA pour filtrer les propos inappropriés et garantir la politesse."
+  },
+  {
+    question: "Puis-je modifier mes informations ?",
+    answer: "Absolument. Que vous soyez client ou professionnel, vous disposez d'un profil modifiable à tout moment pour mettre à jour vos informations personnelles ou votre mot de passe."
+  }
+];
   return (
     <div className="  py-16 px-4">
       <div className="max-w-3xl mx-auto">

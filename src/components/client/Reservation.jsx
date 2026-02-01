@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { Calendar, DollarSign, AlertCircle, CheckCircle, XCircle, User } from 'lucide-react'
+import { Calendar, DollarSign, AlertCircle, CheckCircle, XCircle, User,Star } from 'lucide-react'
 import { updateDemandeStatus } from '../../../api/Demande.Api'
+import { useNavigate } from 'react-router-dom'
 
 function Reservation({ demande }) {
   const [reponse, setReponse] = useState('')
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
 
   const getStatusIcon = (status) => {
+    
     switch (status) {
       case 'En attente':
         return <AlertCircle className="w-5 h-5 text-yellow-500" />
@@ -135,6 +138,26 @@ function Reservation({ demande }) {
                 {demande._id}
               </p>
             </div>
+          {demande.status === 'Termine' && (
+  <div className="mt-4 p-4 bg-amber-50 rounded-xl border border-amber-100 flex items-center justify-between">
+    <div className="flex items-center gap-3">
+      <div className="p-2 bg-amber-100 rounded-lg text-amber-600">
+        <Star size={20} fill="currentColor" />
+      </div>
+      <div>
+        <p className="text-sm font-semibold text-amber-900">Mission terminée !</p>
+        <p className="text-xs text-amber-700">Partagez votre expérience avec cet artisan.</p>
+      </div>
+    </div>
+    
+    <button
+      onClick={() => navigate(`/ServiceDetails/${demande.service._id}`)}
+      className="flex items-center gap-2 px-4 py-2 bg-white border border-amber-200 text-amber-700 text-sm font-bold rounded-lg hover:bg-amber-600 hover:text-white hover:border-amber-600 transition-all duration-300 shadow-sm active:scale-95"
+    >
+      Laisser un avis
+    </button>
+  </div>
+)}
 
             {/* Action Section */}
             {demande.status === 'Offre envoyée' && (

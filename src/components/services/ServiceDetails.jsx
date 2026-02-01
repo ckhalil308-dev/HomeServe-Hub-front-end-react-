@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { getServiceById } from '../../../api/services.api';
 import { ChevronLeft, ChevronRight, Star, User } from 'lucide-react';
 import ImageCaroselle from './ImageCaroselle';
@@ -8,14 +8,20 @@ import ProSection from './ProSection';
 import { FileText, DollarSign, Calendar , Send, ArrowLeft} from 'lucide-react';
 import ReserverService from '../client/ReserverService';
 
+import { getCommentsByServiceId } from '../../../api/Comments.api';
+import Comments from './Comments';
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function ServiceDetails() {
+
   const { id } = useParams();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const[commander,setCommander]=useState(false); 
+
+
   
  
 
@@ -95,30 +101,9 @@ function ServiceDetails() {
            
         </div>
 
-        {/* Professional Card Section */}
-        
           <ProSection service={service}></ProSection>
         
-
-        {/* Comments Section */}
-        <div className="mt-16 space-y-8">
-          <div className="border-b-2 border-slate-200 pb-4">
-            <h2 className="text-2xl font-bold text-slate-900">Avis & Commentaires</h2>
-          </div>
-
-          {/* Comments Placeholder */}
-          <div className="bg-gradient-to-br from-teal-50 to-cyan-50 p-12 rounded-xl border-2 border-dashed border-teal-300">
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-teal-200 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl">💬</span>
-              </div>
-              <div>
-                <p className="text-slate-700 font-semibold text-lg mb-2">Aucun commentaire pour le moment</p>
-                <p className="text-slate-600">Soyez le premier à partager votre expérience avec ce service!</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <Comments id={id} ></Comments>
       </div>
     </div>
   );
