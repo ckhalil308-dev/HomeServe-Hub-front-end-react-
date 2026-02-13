@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Trash2, Edit2, ChevronRight } from 'lucide-react';
-import { deleteService } from '../../../api/services.api';
+import { deleteService, getServicesByProfessional } from '../../../api/services.api';
 import { useNavigate } from 'react-router-dom';
-
+import toast from 'react-hot-toast';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
@@ -10,20 +10,20 @@ function ServiceCard({ service, onEdit,services, deleteServiceFromList }) {
     const navigate=useNavigate();
     const[loading,setLoading]=useState(false);
     const[modifiable,setModifiable]=useState(false);
+    const[showConfirm,setShowConfirm]=useState(false);
+
    const onDelete = async (serviceId) => {
     setLoading(true);
-    if (!window.confirm("Are you sure you want to delete this service?")) {
-      setLoading(false);
-      return;
-    }
     try {
       await deleteService(serviceId);
       deleteServiceFromList(serviceId);
-     console.log("Service deleted successfully");
+      toast.success('Service deleted successfully');
     } catch (error) {
       console.error("Failed to delete service:", error.data);
+      toast.error('Failed to delete service');
     } finally {
       setLoading(false);
+      setShowConfirm(false);
     }
    }
   const imageUrl = service.imagesUrls?.[0] 
@@ -31,11 +31,31 @@ function ServiceCard({ service, onEdit,services, deleteServiceFromList }) {
     : 'service-placeholder.png';
 
   return (
-    loading ? (
-      <div className="flex items-center justify-center py-16">
-        <div className="text-center">Loading...</div>
+    <>
+    {showConfirm && (
+      <div className="fixed inset-0 bg-black/50  transition-opacity  flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Supprimer le service ?</h3>
+          <p className="text-gray-600 mb-6">Êtes-vous sûr de vouloir supprimer ce service ? Cette action est irréversible.</p>
+          <div className="flex gap-3 justify-end">
+           
+            <button 
+              onClick={() => onDelete(service._id)}
+              className="px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+            >
+              Supprimer
+            </button>
+             <button 
+              onClick={() => setShowConfirm(false)}
+              className="px-4 py-2 rounded-lg bg-gray-200 text-gray-900 font-medium hover:bg-gray-300 transition-colors"
+            >
+             Annuler
+            </button>
+          </div>
+        </div>
       </div>
-    ) : (
+    )}
+    
     <div className="  animate group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100">
       <div className="flex items-stretch">
         {/* Image Section */}
@@ -79,7 +99,7 @@ function ServiceCard({ service, onEdit,services, deleteServiceFromList }) {
             <span  className="hidden lg:inline" >Modifier</span>
           </button>
           <button 
-            onClick={() => onDelete(service._id)}
+            onClick={() => setShowConfirm(true)}
             className="flex items-center justify-center gap-2 bg-red-50 hover:bg-red-600 text-red-600 hover:text-white px-4 py-2.5 rounded-lg transition-colors font-medium text-sm group/btn border border-red-200 hover:border-red-600"
           >
             <Trash2 size={18} className="group-hover/btn:scale-110 transition-transform" />
@@ -88,7 +108,7 @@ function ServiceCard({ service, onEdit,services, deleteServiceFromList }) {
         </div>
       </div>
     </div>
-    )
+    </>
   );
 }
 

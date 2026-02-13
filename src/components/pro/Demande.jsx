@@ -55,7 +55,7 @@ export default function Demande({ demande, updateStatus }) {
 
       {/* Price */}
       <div className="flex-1 min-w-[100px]">
-        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Prix</p>
+        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Prix de depart</p>
         <p className="text-sm font-semibold text-gray-900">{demande.prix} dt</p>
       </div>
 

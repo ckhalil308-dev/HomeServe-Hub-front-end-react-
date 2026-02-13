@@ -42,9 +42,9 @@ function HeroSection() {
         </div>
 
         {/* Massive Centered Headline */}
-        <h1 className="text-6xl md:text-[100px] font-black text-gray-950 leading-[0.85] tracking-tighter mb-12">
-          RÉPAREZ TOUT <br />
-          <span className="text-gray-800/40 italic">SANS EFFORT.</span>
+        <h1 className="text-3xl md:text-[100px] font-black text-gray-950 leading-[0.85] tracking-tighter mb-12">
+         L'excellence du service <br />
+          <span className="text-gray-800/40 italic">à domicile.</span>
         </h1>
 
         {/* The "Centerpiece" - Floating Search Box that breaks the layout */}

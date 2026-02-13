@@ -185,7 +185,7 @@
                 />
                 <label htmlFor="image-input" className="cursor-pointer">
                   <Upload className="mx-auto mb-2 text-gray-400" size={32} />
-                  <p className="text-sm font-medium text-gray-700">Clicker pour télécharger ou glisser-déposer (1ere image sera  l'image  principale) </p>
+                  <p className="text-sm font-medium text-gray-700">Clicker pour télécharger  (1ere image sera  l'image  principale du service) </p>
                   <p className="text-xs text-gray-500">PNG, JPG, GIF jusqu'à 10Mo</p>
                 </label>
               </div>

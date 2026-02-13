@@ -1,6 +1,8 @@
 import React from 'react'
 
-function DemandeDetailAction({ demande ,updateStatus,setIsApproved,isApproved,suggestedPrice,setSuggestedPrice,handleSavePrice,savingPrice,handleReject,Check}) {
+function DemandeDetailAction({ demande ,updateStatus,setIsApproved,isApproved,suggestedPrice,setSuggestedPrice,handleSavePrice,savingPrice,handleReject,Check, setStatusMsg
+  
+}) {
   return (
     <>
       {demande.status === 'En attente' && (
@@ -48,7 +50,7 @@ function DemandeDetailAction({ demande ,updateStatus,setIsApproved,isApproved,su
                     </button>
 
                     <button
-                      onClick={() => setIsApproved(false)}
+                      onClick={() => { setIsApproved(false); setStatusMsg({ text: '', type: '' }); }}
                       className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-xl font-bold py-4 px-6 transition duration-200"
                     >
                       Annuler

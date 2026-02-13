@@ -37,7 +37,7 @@ function MyProfile() {
   const initials = `${formData.prenom?.charAt(0)}${formData.nom?.charAt(0)}`.toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] py-12 px-4 sm:px-6 lg:px-8">
+    <div className="animate   min-h-screen bg-[#F9FAFB] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         
         {/* Header avec Avatar */}

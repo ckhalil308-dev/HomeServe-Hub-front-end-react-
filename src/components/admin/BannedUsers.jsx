@@ -49,13 +49,16 @@
             }
             fetchBannedUsers();
         }, [debouncedSearch, page]);
+        const debanirUser=(userID)=>{
+        setUsersBanned(UsersBanned.filter(user => user._id !== userID));
+        }
     return (
 
         <div className="animate min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8"> 
 
         <HeaderTabAdmin role="utilisateur Banni" description="Manage and view all your banned users" />
             <Searchbar search={search} handleSearch={handleSearch} placeholder="Search banned users..." />
-            <AdminTableUsers users={UsersBanned} loading={loading} tabHeaders={tabHeaders} />
+            <AdminTableUsers users={UsersBanned} loading={loading} tabHeaders={tabHeaders} debanirUser={debanirUser} />
         <Pagination currentPage={page} totalPages={totalPages} setPage={setPage} />
         </div>
     )

@@ -87,7 +87,7 @@
     
     <div>
       
-    <h2 className='mb-8 font-bold text-3xl text-gray-900'>Passer une Commande</h2>
+    <h2 className='mb-8 font-bold text-3xl text-gray-900'>Passer une Demande pour ce service</h2>
     {submitError && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{submitError}</div>}
     
     <div className='space-y-6 max-w-2xl'>

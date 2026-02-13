@@ -22,7 +22,7 @@ export default function LoginForm() {
     setIsLoading(true)
     setErrorMessage("");
     try{
-        const data= await login({email,motDePasse});
+        const data= await login({email,motDePasse,rememberMe});
         console.log( data);
         localStorage.setItem("token",data.token);
         await fetchUser();
@@ -115,18 +115,18 @@ export default function LoginForm() {
             </div>
 
             {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between pt-2">
-              <label className="flex items-center gap-2.5 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-white/20 bg-white/5 text-teal-500 focus:ring-teal-500 accent-teal-500 cursor-pointer"
-                />
-                <span className="text-sm text-slate-300 group-hover:text-slate-200 transition-colors">Se souvenir de moi</span>
-              </label>
-              
-            </div>
+              <div className="flex items-center justify-between pt-2">
+                <label className="flex items-center gap-2.5 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 rounded border-white/20 bg-white/5 text-teal-500 focus:ring-teal-500 accent-teal-500 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-300 group-hover:text-slate-200 transition-colors">Se souvenir de moi</span>
+                </label>
+                
+              </div>
 
             {/* Submit Button */}
             <button

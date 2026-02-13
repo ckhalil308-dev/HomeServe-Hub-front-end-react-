@@ -1,10 +1,10 @@
-import { DollarSign, DollarSignIcon, Home, PersonStanding, Settings, Briefcase, Check } from 'lucide-react'
+import { DollarSign, DollarSignIcon, Home, PersonStanding, Settings, Briefcase, Check, Download } from 'lucide-react'
 import { div, s } from 'motion/react-client'
 import React, { use } from 'react'
 import CountUp from '../../CountUp'
 import AdminDashTable from './AdminDashTable'
 import { useState ,useEffect} from 'react'
-import { getPros } from '../../../api/Users.api'
+import { downloadMonthlyReport, getPros } from '../../../api/Users.api'
 import { set } from 'lodash'
 import { getClients } from '../../../api/Users.api'
 import { getAllDemandes } from '../../../api/Demande.Api'
@@ -17,6 +17,7 @@ function AdminDash() {
   const [DemandeRecente,setDemandeRecente]=useState([]);
  const [ProsEnattente, setProsEnattente] = useState([]);
   const[Loading,setLoading]=useState(false);
+
   useEffect(()=>{
      
       const fetchProsAndClients=async()=>{
@@ -45,7 +46,13 @@ function AdminDash() {
       };
       fetchProsAndClients();
   },[]);
-    
+      const telechargerRapport=async()=>{
+    try{
+      await downloadMonthlyReport();
+    }catch(error){
+      console.error("Failed to download report:", error);
+    }
+  }
 
 
   
@@ -66,7 +73,7 @@ function AdminDash() {
       icon:<Check/>,
       title:"interventions terminées",
       number:<CountUp to={totaleDemandes} duration={1} />,
-      percent:"+12% ce mois",
+      percent:"",
 
     }
  
@@ -98,9 +105,9 @@ function AdminDash() {
 
       </div>
       <div>
-        <button className='flex items-center justify-center gap-2 text-white bg-blue-600 p-2 rounded-lg  hover:scale-102 hover:shadow-md  transition-transform linear 2s'> 
-           <Settings size={16}></Settings>
-          parametres
+        <button onClick={telechargerRapport} className='flex items-center justify-center gap-2 text-white bg-blue-600 p-2 rounded-lg  hover:scale-102 hover:shadow-md  transition-transform linear 2s'> 
+           <Download size={16}></Download>
+           Rapport mensuel
          
         </button>
 

@@ -13,6 +13,9 @@ function Myservices() {
   const [services, setServices]=useState([]);
   const [loadingServices, setLoadingServices]=useState(true);
     const { user, setUser, loading } = useUser();
+    const deleteServiceFromList = (serviceId) => {
+  setServices(services.filter(s => s._id !== serviceId));
+}
 
   const fetchServices=async()=>{
     setLoadingServices(true);
@@ -105,7 +108,7 @@ if (!user.isVerified) {
       ) : (
         <div className="space-y-4 max-w-6xl">
           {services.map((service) => (
-            <Myservice key={service._id} services={services} service={service} />
+            <Myservice key={service._id} services={services} service={service} deleteServiceFromList={deleteServiceFromList} />
           ))}
         </div>
       )}

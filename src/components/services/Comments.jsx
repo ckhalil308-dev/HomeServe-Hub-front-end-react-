@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Star, Send, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { addCommentToService, getCommentsByServiceId } from '../../../api/Comments.api';
 import Pagination from '../admin/Pagination';
+import { useUser } from '../contexte/context';
+
 
 function Comments({ id }) {
   const [comments, setComments] = useState([]);
@@ -12,6 +14,8 @@ function Comments({ id }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [hoveredNote, setHoveredNote] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [averageRating, setAverageRating] = useState(0);
+    const { user } = useUser();
 
   const [commentData, setCommentData] = useState({
     service: id,
@@ -19,20 +23,21 @@ function Comments({ id }) {
     contenu: ''
   });
 
-  // Load comments
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const data = await getCommentsByServiceId(id, page);
+        console.log('Commentaires récupérés:', data);
         setComments(data.commentaires || []);
         setTotalPages(data.totalPages || 1);
-        setTotalComments(data.totaleCommentaires || 0);
+        setTotalComments(data.totalCommentaires || 0);
+        setAverageRating(data.avgNote || 0);
       } catch (error) {
         console.error('Fetch error:', error);
       }
     };
     fetchComments();
-  }, [id, page]);
+  }, [id, page, averageRating]);
 
   const handleAddComment = async () => {
     if (commentData.note === 0 || !commentData.contenu.trim()) {
@@ -45,9 +50,11 @@ function Comments({ id }) {
 
     try {
       const response = await addCommentToService(id, commentData);
+      ;
+       const data = await getCommentsByServiceId(id, page);
+      setAverageRating(data.avgNote || 0);
       
-      // FIX: Ensure the new comment has 'auteur' info even if backend response is slow
-      // We manually add it so it shows up INSTANTLY
+    
       const instantComment = {
         contenu: commentData.contenu,
         note: commentData.note,
@@ -59,8 +66,6 @@ function Comments({ id }) {
 
       setComments((prev) => [instantComment, ...prev]);
       setTotalComments((prev) => prev + 1);
-      
-      // Reset Form
       setCommentData({ service: id, note: 0, contenu: '' });
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
@@ -80,7 +85,7 @@ function Comments({ id }) {
           <div className="flex items-center gap-3 mt-3">
             <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1 rounded-full border border-yellow-100">
               <Star size={16} className="fill-yellow-500 text-yellow-500" />
-              <span className="font-bold text-yellow-700">4.8</span>
+              <span className="font-bold text-yellow-700">{averageRating.toFixed(1)}</span>
             </div>
             <span className="text-slate-500 font-medium">{totalComments} avis</span>
           </div>
@@ -137,70 +142,73 @@ function Comments({ id }) {
             </div>
           )}
         </div>
+        {user && user.role === 'client' && (
+          <>
+            {/* FORM SECTION */}
+            <div className="lg:w-1/3 order-1 lg:order-2">
+              <div className="bg-white border border-slate-200 rounded-2xl p-8 sticky top-8 shadow-sm">
+                <h3 className="font-bold text-slate-900 mb-6 text-xl">Donner mon avis</h3>
+                
+                {generalError && (
+                  <div className="mb-6 p-4 bg-red-50 text-red-700 border border-red-100 rounded-xl flex items-center gap-2 text-sm">
+                    <AlertCircle size={16} /> {generalError}
+                  </div>
+                )}
 
-        {/* FORM SECTION */}
-        <div className="lg:w-1/3 order-1 lg:order-2">
-          <div className="bg-white border border-slate-200 rounded-2xl p-8 sticky top-8 shadow-sm">
-            <h3 className="font-bold text-slate-900 mb-6 text-xl">Donner mon avis</h3>
-            
-            {generalError && (
-              <div className="mb-6 p-4 bg-red-50 text-red-700 border border-red-100 rounded-xl flex items-center gap-2 text-sm">
-                <AlertCircle size={16} /> {generalError}
-              </div>
-            )}
+                {showSuccess && (
+                  <div className="mb-6 p-4 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-xl flex items-center gap-2 text-sm">
+                    <CheckCircle2 size={16} /> Merci pour votre message !
+                  </div>
+                )}
 
-            {showSuccess && (
-              <div className="mb-6 p-4 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-xl flex items-center gap-2 text-sm">
-                <CheckCircle2 size={16} /> Merci pour votre message !
-              </div>
-            )}
+                <div className="space-y-6">
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 block">Votre note</label>
+                    <div className="flex gap-2" onMouseLeave={() => setHoveredNote(0)}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setCommentData({ ...commentData, note: star })}
+                          onMouseEnter={() => setHoveredNote(star)}
+                          className="transition-transform active:scale-90 outline-none"
+                        >
+                          <Star
+                            size={32}
+                            className={`transition-colors duration-150 ${
+                              star <= (hoveredNote || commentData.note)
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-slate-100"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-            <div className="space-y-6">
-              <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 block">Votre note</label>
-                <div className="flex gap-2" onMouseLeave={() => setHoveredNote(0)}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setCommentData({ ...commentData, note: star })}
-                      onMouseEnter={() => setHoveredNote(star)}
-                      className="transition-transform active:scale-90 outline-none"
-                    >
-                      <Star
-                        size={32}
-                        className={`transition-colors duration-150 ${
-                          star <= (hoveredNote || commentData.note)
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-slate-100"
-                        }`}
-                      />
-                    </button>
-                  ))}
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 block">Commentaire</label>
+                    <textarea
+                      value={commentData.contenu}
+                      onChange={(e) => setCommentData({ ...commentData, contenu: e.target.value })}
+                      className="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 focus:bg-white outline-none transition-all text-sm min-h-[140px] resize-none"
+                      placeholder="Décrivez votre expérience..."
+                    />
+                  </div>
+
+                  <button
+                    onClick={handleAddComment}
+                    disabled={isSubmitting}
+                    className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-slate-200"
+                  >
+                    {isSubmitting ? "Envoi..." : "Publier l'avis"}
+                    <Send size={18} />
+                  </button>
                 </div>
               </div>
-
-              <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 block">Commentaire</label>
-                <textarea
-                  value={commentData.contenu}
-                  onChange={(e) => setCommentData({ ...commentData, contenu: e.target.value })}
-                  className="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 focus:bg-white outline-none transition-all text-sm min-h-[140px] resize-none"
-                  placeholder="Décrivez votre expérience..."
-                />
-              </div>
-
-              <button
-                onClick={handleAddComment}
-                disabled={isSubmitting}
-                className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-slate-200"
-              >
-                {isSubmitting ? "Envoi..." : "Publier l'avis"}
-                <Send size={18} />
-              </button>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -55,7 +55,37 @@ export const ModifyUsersByAdmin=async(userId,userData)=>{
     const response = await api.put(`/users/modify-user/${userId}`,userData);
     return response.data;
 }
+export const downloadMonthlyReport = async () => {
+
+    const response = await api.get('/users/getRapportMensuel', {
+
+        responseType: 'blob', // INDISPENSABLE pour le PDF
+
+    });
 
 
 
-export default {getUsers,getPros,getClients,getUserById,deleteUser,GetMe,updateMe,ChangePassword,verifyProfessional,BanUser,unBanUser,getBannedUsers,ModifyUsersByAdmin};
+    // Création du lien de téléchargement
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+
+    link.setAttribute('download', `Rapport_Mensuel_${new Date().getMonth() + 1}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+
+    window.URL.revokeObjectURL(url);
+
+    
+
+    return response.data;
+
+};
+
+
+export default {getUsers,getPros,getClients,getUserById,deleteUser,GetMe,updateMe,
+    ChangePassword,verifyProfessional,BanUser,unBanUser,getBannedUsers,
+    ModifyUsersByAdmin,downloadMonthlyReport
+};

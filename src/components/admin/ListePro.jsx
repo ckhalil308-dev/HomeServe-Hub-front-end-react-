@@ -54,13 +54,25 @@ function ListePro() {
         };
         fetchPros();
       }, [debouncedSearch, page]);
+       const bannerPro=(userID)=>{
+    setPros(pros.filter(pro => pro._id !== userID));
+  }
+    const updatePro = (updatedUser) => {
+    setPros(pros.map(pro => pro._id === updatedUser._id ? updatedUser : pro));
+    if (updatedUser.isBanned) {
+       setPros(pros.filter(pro => pro._id !== updatedUser._id));
+    }
+    if(updatedUser.role === 'client') {
+       setPros(pros.filter(pro => pro._id !== updatedUser._id));
+    }
+}
   return (
     <>
       <div className="animate min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8"> 
 
       <HeaderTabAdmin role="professionnels" description="Manage and view all your professionals" />
        <Searchbar search={search} handleSearch={handleSearch} placeholder="Search professionals..." />
-    <AdminTableUsers users={pros} loading={loading} tabHeaders={tabHeaders} />
+    <AdminTableUsers users={pros} loading={loading} tabHeaders={tabHeaders} bannerPro={bannerPro} modifierPro={updatePro} />
     <Pagination currentPage={page} totalPages={totalPages} setPage={setPage} />
     </div>
     </>

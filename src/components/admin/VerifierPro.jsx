@@ -18,6 +18,7 @@ function VerifierPro() {
         }, 400); // debounce delay
         return () => clearTimeout(timer);
     }, [search]);
+
     useEffect(() => {
         const fetchProsNonverifie = async () => {
 
@@ -47,12 +48,16 @@ function VerifierPro() {
     "Vérification"
 
   ]
+      const verifierPro=(userID)=>{
+       
+        setPros(pros.filter(pro => pro._id !== userID));
+    }
     return (
        <>
          <div className="animate min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8"> 
             <HeaderTabAdmin role="verifier les professionnels" description="Verifier professionnels pour qu'ils soient conformes aux normes" />
              <Searchbar search={search} handleSearch={handleSearch} placeholder="Search professionals..." />
-                <AdminTableUsers users={pros} loading={loading} tabHeaders={tabHeaders} />
+                <AdminTableUsers users={pros} loading={loading} tabHeaders={tabHeaders} verifierPro={verifierPro} />
 
                <Pagination currentPage={page} totalPages={totalPages} setPage={setPage} />
 
