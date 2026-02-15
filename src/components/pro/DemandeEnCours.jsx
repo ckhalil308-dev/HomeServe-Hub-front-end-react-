@@ -11,9 +11,9 @@ function DemandeEnCours() {
         setLoading(true);
         try{
      
-          const response = await getProfessionalDemandes();
+          const response = await getProfessionalDemandes("Approuve");
           console.log("Fetched demandes:", response);
-          setDemandes(response);
+          setDemandes(response.demandes);
         }
         catch(error){
           console.error("Error fetching demandes:", error);
@@ -35,7 +35,7 @@ function DemandeEnCours() {
   )
   
 }  
-const DemandesEnCours = demandes.filter((demande)=>demande.status==="Approuve").length;  
+const DemandesEnCours = demandes.length;  
   return (
     <>
     <div className='mb-10 w-full flex items-center justify-center mt-10'
@@ -50,9 +50,9 @@ const DemandesEnCours = demandes.filter((demande)=>demande.status==="Approuve").
           </div>}
         <div className='animate p-10'>
           {demandes.map((demande)=>(
-            ( demande.status=="Approuve") &&(
+            
                <Demande key={demande._id} demande={demande} updateStatus={updateStatus} />
-            )
+            
           ))}
         </div>
     </>

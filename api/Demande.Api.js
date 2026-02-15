@@ -4,8 +4,8 @@ export const getClientDemandes = async (filter, page) => {
     const response = await api.get('/demandes/client/demandes?status=' + filter+ '&page=' + page    );
     return response.data;
 }
-export const getProfessionalDemandes = async () => {
-    const response = await api.get('/demandes/pro/demandes');
+export const getProfessionalDemandes = async (status) => {
+    const response = await api.get(`/demandes/pro/demandes?status=${status}`);
     return response.data;
 }
 export const createDemande = async (demandeData) => {

@@ -24,3 +24,7 @@ export const getServicesByProfessional=async()=>{
     const response= await api.get('/services/professionnel/me');
     return response.data;
 }
+export const getServicesByProfessionalId=async(professionalId)=>{
+    const response= await api.get(`/services/professionnel/${professionalId}`);
+    return response.data;
+}

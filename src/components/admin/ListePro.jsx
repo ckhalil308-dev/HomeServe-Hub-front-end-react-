@@ -32,8 +32,12 @@ function ListePro() {
     "Email",
     "spécialité",
     "Statut",
+     
        "Modifier", 
-        "Bannir"
+        "Bannir",
+        "Service Publies",
+       
+
   ]
     
       useEffect(() => {

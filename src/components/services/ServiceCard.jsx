@@ -1,15 +1,35 @@
   'use client';
-  import React from 'react';
-  import { Link, useNavigate , } from 'react-router-dom';
 
+
+  import { Link, useNavigate , } from 'react-router-dom';
+  import { useState, useEffect } from 'react';
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
   import { Star, MapPin, Phone, Eye } from 'lucide-react';
-  // import { Button } from '@/components/ui/button';
+  import { getServiceRating } from '../../../api/Comments.api'
+  
 
-  export function ServiceCard(  { service, } ) {
+  export function ServiceCard(  { service } ) {
+    const [SerivceRating, setServiceRating] = useState();
+    const [nbrRatings, setNbrRatings] = useState(0);
     const navigate =useNavigate();
     const firstImage =   `${API_URL}/${service.imagesUrls?.[0]}`;
     const professionalName = `${service.professionnelId.prenom} ${service.professionnelId.nom || ''}`.trim();
+
+
+    //   const getRating=async(serviceId)=>{
+    // try{
+    //   const response=await getServiceRating(serviceId)
+    //   // console.log('Rating du service:', response);
+    //    setServiceRating(response.avgNote)
+    //    setNbrRatings(response.nbr)
+    // }
+    // catch(error){
+    //   console.error('Erreur lors du chargement de la note du service:', error)
+    // }
+    // }
+    // useEffect(() => {
+    //   getRating(service._id);
+    // }, [service._id]);
 
     return (
       <div
@@ -27,12 +47,13 @@
             {service.category}
           </div>
 
-          {/* Rating Badge */}
-          {/* <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-gray-800 backdrop-blur-sm">
+          Rating Badge
+          <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-gray-800 backdrop-blur-sm">
             <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-            <span>{props.rating}</span>
-            <span className="text-gray-500">({props.reviewCount})</span>
-          </div> */}
+            <span>{service.avgNote}</span>
+            <span className="text-gray-500">({service.nbrRatings})</span>
+        
+          </div>
         </div>
 
         {/* Content Container */}

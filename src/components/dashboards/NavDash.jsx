@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { FileText, Briefcase, User, History, LogOut, Menu, X } from 'lucide-react';
+import { FileText, Briefcase, User, History, LogOut, Menu, X, LayoutDashboard, Clock } from 'lucide-react';
 import { ArrowLeft } from 'lucide-react';
 import { useUser } from '../contexte/context';
 import { useState } from 'react';
@@ -9,8 +9,10 @@ export default function SidebarNavbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
 
+  
   const navItems = [
-    { href: '/pro/mes-demandes', label: 'Mes Demandes', icon: FileText, },
+       { href: '/pro/Dashboard', label: 'Dashboard', icon: LayoutDashboard, },
+    { href: '/pro/mes-demandes', label: 'Demande en attente', icon: Clock, },
      { href: '/pro/demande-en-cours', label: 'Demandes en cours', icon: FileText, },
     { href: '/pro/services', label: 'Mes Services', icon: Briefcase, },
    
@@ -94,13 +96,7 @@ export default function SidebarNavbar() {
           })}
         </nav>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-slate-200 space-y-3">
-          <button className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-sm font-medium">
-            <LogOut className="w-4 h-4" />
-            Déconnexion
-          </button>
-        </div>
+      
       </aside>
 
       {/* Mobile Menu Button */}

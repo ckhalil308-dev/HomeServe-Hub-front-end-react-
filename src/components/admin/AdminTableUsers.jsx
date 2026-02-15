@@ -1,12 +1,14 @@
-import { Check } from 'lucide-react'
+import { Check ,Eye,Mail} from 'lucide-react'
 import React, { use } from 'react'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BanUser, ModifyUsersByAdmin, unBanUser,   verifyProfessional } from '../../../api/Users.api';
 import { Edit, Ban, X, AlertCircle } from 'lucide-react';
 
 function AdminTableUsers({ users, loading, tabHeaders, verifierPro, bannerClient, bannerPro,debanirUser, modifierClient 
  , modifierPro
 }) {
+  const navigate = useNavigate();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [formData, setFormData] = useState({ nom: '', prenom: '', email: '', role: '' });
@@ -161,21 +163,37 @@ function AdminTableUsers({ users, loading, tabHeaders, verifierPro, bannerClient
                   </>
                 ) : (
                   <>
-                    {user.role === 'professionnel' && (
+                    {user.role === 'professionnel' && user.isVerified && (
                       <>
                         <td className="px-8 py-4 text-sm text-gray-700">{user.specialite || 'N/A'}</td>
                         <td className={`px-8 py-4 text-sm text-gray-700 ${user.isVerified ? 'text-green-600' : 'text-red-600'} transition`}>
                           {user.isVerified ? 'Verifié' : 'Non Vérifié'}
                         </td>
+                       
+                        
                       </>
                     )}
                     {user.role === 'professionnel' && !user.isVerified && tabHeaders.includes("Vérification") && (
+                      <>
+                         <td className="px-8 py-4 text-sm text-gray-700">{user.specialite || 'N/A'}</td>
                       <td className='flex justify-center items-center'>
                         <button onClick={() => handleVerify(user._id)} className='w-[80%] mt-2 p-2 flex items-center gap-2 justify-center text-sm rounded-lg bg-blue-100 hover:bg-blue-600 hover:text-white text-blue-700'>
                           Verifier<Check size={18} />
                         </button>
                       </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+  <a 
+    href={`mailto:${user.email}`}
+    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold rounded-lg transition-all duration-200"
+  >
+    <Mail size={16} />
+    <span>Contacter le pro</span>
+  </a>
+</td>
+                      </>
                     )}
+                  {(user.role === 'client' || (user.role === 'professionnel' && user.isVerified)) && (
+                    <>
                     <td>
                       <button className="p-2 text-blue-600 bg-blue-50 gap-2 items-center justify-center flex rounded-lg hover:bg-blue-600 hover:text-white transition-colors duration-200" onClick={() => openEditModal(user)}>
                         <p className='text-sm'> Modifier </p>
@@ -188,8 +206,18 @@ function AdminTableUsers({ users, loading, tabHeaders, verifierPro, bannerClient
                         <Ban size={18} />
                       </button>
                     </td>
-                  </>
+                    </>)}
+               
+                     
+                  </> 
                 )}
+                   {user.role=='professionnel' && user.isVerified && (
+                <td className='flex justify-center items-center'>
+                          <button onClick={() => {  navigate(`/admin/pro-details/${user._id}`); }} className="p-2 text-gray-600 bg-gray-50 gap-2 items-center justify-center flex rounded-lg hover:bg-gray-600 hover:text-white transition-colors duration-200">
+                            <Eye size={18} />
+                          </button>
+                        </td>   )}
+
               </tr>
             ))
           )}

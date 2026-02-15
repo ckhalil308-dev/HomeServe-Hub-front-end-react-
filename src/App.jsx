@@ -32,6 +32,8 @@ import ListeDemandes from './components/admin/ListeDemandes.jsx';
 import AdminSettings from './components/admin/AdminSettings.jsx';
 import VerifierPro from './components/admin/VerifierPro.jsx';
 import BannedUsers from './components/admin/BannedUsers.jsx';
+import Dashboard from './components/pro/Dashboard.jsx';
+import ProDetails from './components/admin/ProDetails.jsx';
 
 
 
@@ -88,7 +90,8 @@ function App() {
           <Route path='/pro' element={<Privateguards roles={['professionnel']}>
             <NavDash />
           </Privateguards>}>
-            <Route index element={<Mydemands />} />
+            <Route  path='Dashboard' element={<Dashboard/>} />
+            <Route index element={<Dashboard/>} />
             <Route path='services' element={<Myservices />} />
             <Route path='mes-demandes' element={<Mydemands />} />
             <Route path='add-service' element={<AddService />} />
@@ -114,6 +117,7 @@ function App() {
             <Route path='Parametre' element={<AdminSettings />} />
             <Route path='verifier-pros' element={<VerifierPro/>} />
             <Route path='BannedUsers'  element={<BannedUsers></BannedUsers>} />
+            <Route path='pro-details/:id' element={<ProDetails/>} />
           </Route>
 
           <Route path='*' element={<div>404 Not Found</div>} />

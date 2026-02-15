@@ -11,9 +11,9 @@ function Mydemands() {
     setLoading(true);
     try{
  
-      const response = await getProfessionalDemandes();
+      const response = await getProfessionalDemandes("En attente");
       console.log("Fetched demandes:", response);
-      setDemandes(response);
+      setDemandes(response.demandes);
     }
     catch(error){
       console.error("Error fetching demandes:", error);
@@ -25,7 +25,7 @@ function Mydemands() {
    useEffect(()=>{
     getDemandes();
    },[])
-   const demandesEnAttente = demandes.filter((demande)=>demande.status==="En attente").length;
+   const demandesEnAttente = demandes.length;
     
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-8">
@@ -50,9 +50,9 @@ function Mydemands() {
         
         <div className='flex flex-col gap-6'>
           {demandes.map((demande)=>(
-            demande.status==="En attente" &&(
+           
                <Demande key={demande._id} demande={demande} />
-            )
+           
           ))}
         </div>
       </div>

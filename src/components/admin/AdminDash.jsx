@@ -59,19 +59,19 @@ function AdminDash() {
    const tab=[
     {
       icon:<Briefcase/>,
-      title:"nombre de professionnels",
+      title:"Nombre de professionnels",
       number:<CountUp to={nombrePros} duration={2} />,
       percent: `+${nombreProsCetteSemaine} cette semaine`,
     },
     {
       icon:<PersonStanding  />,
-      title:"nombre de clients",
+      title:"Nombre de clients",
       number:<CountUp to={nombreClients} duration={2} />,
       percent:`+${nombreClientsCetteSemaine} cette semaine`,
     },
     {
       icon:<Check/>,
-      title:"interventions terminées",
+      title:"Interventions terminées",
       number:<CountUp to={totaleDemandes} duration={1} />,
       percent:"",
 
@@ -87,9 +87,9 @@ function AdminDash() {
 
     ]
      const headerTab2=[
-      "pro",
-      "email",
-      "specialité",   
+      "Pro",
+      "Email",
+      "Spécialité",   
       "Date D'inscription",
       
       "Status"
@@ -128,24 +128,29 @@ function AdminDash() {
       </div>
       ))}
       </div>
-      <div className='flex justify-center gap-20'>
-      <div className="w-[50%] shadow-md rounded-lg p-6">
+    <div className="max-w-7xl mx-auto mt-10">
+  <div className="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden">
+    <div className="flex divide-x divide-gray-100">
+      
+      {/* Colonne 1 */}
+      <div className="w-1/2 p-8 hover:bg-gray-50/30 transition-colors">
         <AdminDashTable 
           title="Demandes Récentes"
-           headerTab={headerTab}
-           tab2={DemandeRecente}
-        ></AdminDashTable>
- 
-     </div>
-       <div className="w-[50%] shadow-md rounded-lg p-6">
-        <AdminDashTable 
-         title="Pros en attente de vérification"
-           headerTab={headerTab2}
-           tab2={ProsEnattente}
-        ></AdminDashTable>
- 
-     </div>
+          tab2={DemandeRecente}
+        />
       </div>
+
+      {/* Colonne 2 */}
+      <div className="w-1/2 p-8 hover:bg-gray-50/30 transition-colors">
+        <AdminDashTable 
+          title="Pros en attente"
+          tab2={ProsEnattente}
+        />
+      </div>
+
+    </div>
+  </div>
+</div>
       </>
   )
 }

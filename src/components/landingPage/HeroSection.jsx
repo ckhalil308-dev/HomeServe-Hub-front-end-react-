@@ -1,5 +1,5 @@
 import React from 'react'
-import { House, Star, Sparkles, ShieldCheck, Zap, Search, ArrowDown } from "lucide-react"
+import { House, Star, Sparkles, ShieldCheck, Zap, Search, ArrowDown,Loader } from "lucide-react"
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { SearchServiceAI } from '../../../api/AI.api';
@@ -70,6 +70,9 @@ function HeroSection() {
               className={"color w-full md:w-auto px-10 py-5 text-white font-black rounded-[2rem] shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 whitespace-nowrap" + (loading ? " animate-pulse opacity-50 cursor-not-allowed" : "")}
 
             > 
+            {loading &&(
+              <Loader className="animate-spin text-white" size={20} />
+            )}
               <Search size={22} strokeWidth={3} />
               TROUVER MA SOLUTION
             </button>

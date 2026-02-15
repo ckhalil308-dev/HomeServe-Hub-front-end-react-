@@ -1,10 +1,12 @@
   import React from 'react'
   import { useState } from 'react';
-  import { Upload, X } from 'lucide-react';
+  import { Upload, X ,Sparkles ,Loader} from 'lucide-react';
   import { useUser } from '../contexte/context';
   import { createService } from '../../../api/services.api';
+  import { UpdateDescriptionAI } from '../../../api/AI.api';
 
   function AddService() {
+     const [loadingAI,setLoadingAI]=useState(false); 
     const {user,setUser,loading}=useUser(); 
     const [loadingService,setLoadingService]=useState(false);
     const [error,setError]=useState({});
@@ -102,6 +104,24 @@
   }
 };
 
+
+
+  const UpdateDescription=async()=>{
+    setLoadingAI(true);
+    try {
+      const des={description:Service.description};
+      const updatedDescription = await UpdateDescriptionAI(des);
+
+      console.log("Updated description from AI:", updatedDescription.updatedDescription);
+      setService(prev => ({ ...prev, description: updatedDescription.updatedDescription }));
+      setLoadingAI(false);
+    }
+    catch (error) {
+      console.error("Failed to update description:", error);
+      setLoadingAI(false);
+    }
+  }
+
     return (
       <div className= "  animate min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-8">
         <div className="max-w-2xl mx-auto">
@@ -145,6 +165,23 @@
               />
               {error.description && <p className="text-red-600 text-sm">{error.description}</p>}
             </div>
+             <button 
+              onClick={UpdateDescription} 
+              disabled={loadingAI||Service.description.trim()===""}
+              className="mt-3 px-5 py-2.5 bg-gradient-to-r from-blue-400 to-cyan-400 hover:from-blue-500 hover:to-cyan-500 text-white rounded-lg transition-all duration-300 font-medium flex items-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-75 disabled:cursor-not-allowed"
+            >
+              {loadingAI ? (
+                <>
+                  <Loader size={18} className="animate-spin" />
+                  AI en cours...
+                </>
+              ) : (
+                <>
+                  <Sparkles size={18} />
+                  Améliorer avec AI
+                </>
+              )}
+            </button>
         
 
             {/* Price */}

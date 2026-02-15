@@ -8,6 +8,7 @@ import { ServiceCard } from './ServiceCard'
 import Pagination from '../admin/Pagination'
 import FilterBar from './FilterBar'
 
+
 export default function ServicesPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState(searchParams.get('search') || '')
@@ -21,7 +22,7 @@ export default function ServicesPage() {
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1)
   const [totalPages, setTotalPages] = useState(1)
 
-  const categories = ['tous', 'Plomberie', 'Électricité', 'Peinture', 'CVC', 'Réparations générales', 'Sécurité']
+  const categories = ['Tous', 'Plomberie', 'Électricité', 'Peinture', 'CVC', 'Réparations générales', 'Sécurité']
 
   const fetchServices = async (currentSearch = search) => {
     try {
@@ -35,6 +36,8 @@ export default function ServicesPage() {
       })
 
       const response = await getAllServices(params)
+      console.log('Services chargés:', response)
+
       setServices(response.services || [])
       setTotalPages(response.totalPages || 1)
     } catch (error) {
@@ -92,6 +95,7 @@ export default function ServicesPage() {
     setSearch(e.target.value)
     setPage(1)
   }
+
 
   return (
     <div className="animate min-h-screen bg-gray-50">

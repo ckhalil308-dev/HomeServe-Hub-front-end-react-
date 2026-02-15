@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'  
-import { Upload, X } from 'lucide-react';    
+import { Upload, X, Sparkles, Loader } from 'lucide-react';    
 import { useState } from 'react'; 
 import { useNavigate, useParams } from 'react-router-dom'; 
 import { useUser } from '../contexte/context'; 
 import { getServiceById, updateService } from '../../../api/services.api'; 
 import { nav } from 'motion/react-client';
+import { UpdateDescriptionAI } from '../../../api/AI.api';
 
 function EditService() {     
     
@@ -12,6 +13,7 @@ function EditService() {
   const { id } = useParams();     
   const {user,setUser,loading}=useUser();          
   const [loadingService,setLoadingService]=useState(false);         
+  const [loadingAI,setLoadingAI]=useState(false);         
   const [error,setError]=useState({});         
   const [Service, setService] = useState({           
     titre: "",           
@@ -126,7 +128,21 @@ function EditService() {
         setLoadingService(false);
     }
     }
-  
+  const UpdateDescription=async()=>{
+    setLoadingAI(true);
+    try {
+      const des={description:Service.description};
+      const updatedDescription = await UpdateDescriptionAI(des);
+
+      console.log("Updated description from AI:", updatedDescription.updatedDescription);
+      setService(prev => ({ ...prev, description: updatedDescription.updatedDescription }));
+      setLoadingAI(false);
+    }
+    catch (error) {
+      console.error("Failed to update description:", error);
+      setLoadingAI(false);
+    }
+  }
   return (        
     <div className="animate min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 p-8">             
       <div className="max-w-2xl mx-auto">               
@@ -167,7 +183,24 @@ function EditService() {
               rows={5}                     
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"                   
             />                   
-            {error.description && <p className="text-red-600 text-sm">{error.description}</p>}                 
+            {error.description && <p className="text-red-600 text-sm">{error.description}</p>} 
+            <button 
+              onClick={UpdateDescription} 
+              disabled={loadingAI}
+              className="mt-3 px-5 py-2.5 bg-gradient-to-r from-blue-400 to-cyan-400 hover:from-blue-500 hover:to-cyan-500 text-white rounded-lg transition-all duration-300 font-medium flex items-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-75 disabled:cursor-not-allowed"
+            >
+              {loadingAI ? (
+                <>
+                  <Loader size={18} className="animate-spin" />
+                  AI en cours...
+                </>
+              ) : (
+                <>
+                  <Sparkles size={18} />
+                  Améliorer avec AI
+                </>
+              )}
+            </button>                
           </div>                                   
 
           {/* Price */}                 

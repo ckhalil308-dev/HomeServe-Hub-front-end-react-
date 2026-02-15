@@ -6,14 +6,16 @@ import Demande from './Demande'
 
 function DemandeHistory() {
       const[demandes,setDemandes]=useState([])
+      const[nbrDemande,setNbrDemande]=useState(0)
       const[loading,setLoading]=useState(true)
        const getDemandes=async()=>{
         setLoading(true);
         try{
      
-          const response = await getProfessionalDemandes();
+          const response = await getProfessionalDemandes("Termine");
           console.log("Fetched demandes:", response);
-          setDemandes(response);
+          setDemandes(response.demandes);
+          setNbrDemande(response.demandes.length);
         }
         catch(error){
           console.error("Error fetching demandes:", error);
@@ -30,7 +32,7 @@ function DemandeHistory() {
        useEffect(()=>{
         getDemandes();
        },[])
-       const demandesHistorique = demandes.filter((demande)=>demande.status==="Termine").length;
+       const demandesHistorique = demandes.length;
   return (
     <>
     <div className='mb-10 w-full flex items-center justify-center mt-10'
@@ -39,7 +41,7 @@ function DemandeHistory() {
 
     </div>
         {loading && <p>Loading...</p>}
-    { demandesHistorique===0  && <p className=' flex items-center justify-center'>Aucune demande en historique.</p>}
+    { demandesHistorique===0  && <p className=' flex items-center justify-center'>Aucune demande en historique. </p>}
 
         <div className='animate p-10'>
           {demandes.map((demande)=>(

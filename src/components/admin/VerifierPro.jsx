@@ -45,7 +45,8 @@ function VerifierPro() {
     "Prenom"  ,
     "Email",
     "spécialité",
-    "Vérification"
+    "Vérification",
+    "contacter le pro",
 
   ]
       const verifierPro=(userID)=>{
